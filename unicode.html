@@ -22,13 +22,8 @@
 </style>
 </head>
 <body>
-<form method="get">查詢：
-始碼 <input name="s" size="5" type="text" />
-終碼 <input name="e" size="5" type="text" />
-<input value="送出" type="submit" />
-找字：
-<input name="uni" size="5" type="text" />
-<input value="查詢" type="button" onclick="searchunihan();" />
+<form method="get">查詢：始碼 <input id="s" name="s" size="5" type="text" /> 終碼 <input id="e" name="e" size="5" type="text" /> <input value="送出" type="submit" /></form>
+<form method="get" target="_blank" action="http://www.unicode.org/cgi-bin/GetUnihanData.pl"><input name="codepoint" size="5" type="text" /> <input value="在 Unihan 找字" type="submit" />
 </form>
 <hr/>
 
@@ -284,11 +279,7 @@ var $end = ($endx!='') ? hexdec($endx) : $start;
 var $startp = parseInt($start / 16) * 16;
 var $endp = (parseInt($end / 256) + 1) * 256;
 
-function f(name) {
-    return document.forms[0][name];
-}
-
-function e(id) {
+function $(id) {
     return document.getElementById(id);
 }
 
@@ -323,11 +314,11 @@ function _GET() {
 }
 
 function searchunihan() {
-    window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint='+f('uni').value);
+    window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint='+$('uni').value);
 }
 
-f('s').value = $startx;
-f('e').value = $endx;
+$('s').value = $startx;
+$('e').value = $endx;
 
 var out = [];
 out.push('<table class="map" style="font-size: 1.5em; width: 80%;">\n');
@@ -353,7 +344,7 @@ for ($i=$startp;$i<=$endp;++$i) {
     }
 }
 out.push( "</tr>\n</table>");
-e('output').innerHTML = out.join('');
+$('output').innerHTML = out.join('');
 
 //-->
 </script>
