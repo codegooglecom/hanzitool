@@ -278,9 +278,9 @@
 var $_GET = _GET();
 
 var $startx = isset($_GET['s']) ? $_GET['s'] : '0';
-var $endx = isset($_GET['e']) ? $_GET['e'] : 'FF';
+var $endx = isset($_GET['e']) ? $_GET['e'] : '';
 var $start = hexdec($startx);
-var $end = hexdec($endx);
+var $end = ($endx!='') ? hexdec($endx) : $start;
 var $startp = parseInt($start / 16) * 16;
 var $endp = (parseInt($end / 256) + 1) * 256;
 
