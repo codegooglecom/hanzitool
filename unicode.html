@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Unicode 編碼表</title>
-<style>
+<style type="text/css">
 .pretty { border-collapse: collapse; border: 1px solid #CCC;}
 .pretty th, .pretty td { border: 1px solid #CCC; padding: 0.2em;}
 .pretty th { background-color: #ccf; }
@@ -20,11 +20,83 @@
 .map th { background-color: #ccf; }
 .empty { background-color: rgb(102,102,102);}
 </style>
+<script type="text/javascript">
+<!--
+function $(id) {
+    return document.getElementById(id);
+}
+
+function _GET() {
+    var ret = [];
+    var args = location.search.substr(1).split('&');
+    for (var i=0,I=args.length;i<I;++i) {
+        var e = args[i].indexOf('=');
+        ret[args[i].substring(0,e)] = args[i].substring(e+1);
+    }
+    return ret;
+}
+
+function dechex(number) {
+    if (number < 0) {
+        number = 0xFFFFFFFF + number + 1;
+    }
+    return parseInt(number, 10).toString(16).toUpperCase();
+}
+
+function hexdec(hex_string) { 
+    hex_string = (hex_string+'').replace(/[^a-f0-9]/gi, '');
+    return parseInt(hex_string, 16);
+}
+
+function searchunihan(key) {
+    window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint='+key);
+}
+
+function init() {
+    var $_GET = _GET();
+
+    if ($_GET['s']==undefined && $_GET['e']==undefined) {var startx = '0000', endx = '00FF';}
+    else {var startx = $_GET['s'], endx = $_GET['e'];}
+    var start = hexdec(startx);
+    var end = (endx!='') ? hexdec(endx) : start;
+    var startp = parseInt(start / 16) * 16;
+    var endp = (parseInt(end / 256) + 1) * 256;
+
+    $('s').value = startx;
+    $('e').value = endx;
+
+    var out = [];
+    out.push('<table class="map" style="font-size: 1.5em; width: 80%;">\n');
+    out.push('<tr><th colspan="17">Unicode: '+dechex(start) + " - " + dechex(end) + '</th>');
+
+    for (var i=startp;i<=endp;++i) {
+        if (i%256==0||i==startp) {
+            if (i>end) break;
+            out.push('</tr>\n<tr><th>U+</th>');
+            for ($j=0,$J=15;$j<=$J;++$j) {
+                out.push('<th>' + dechex($j) + '</th>');
+            }
+        }
+        if (i%16==0) {
+            if (i>end) break;
+            out.push( '</tr>\n<tr><td><b>'+dechex(parseInt(i/16)*16)+'</b></td>');
+        }
+        if (i>=start && i<=end) {
+            out.push( "<td>&#"+i+";</td>");
+        }
+        else {
+            out.push('<td class="empty">&nbsp;</td>');
+        }
+    }
+    out.push( "</tr>\n</table>");
+    $('output').innerHTML = out.join('');
+}
+//-->
+</script>
 </head>
-<body>
-<form method="get">查詢：始碼 <input id="s" name="s" size="5" type="text" /> 終碼 <input id="e" name="e" size="5" type="text" /> <input value="送出" type="submit" /></form>
-<form method="get" target="_blank" action="http://www.unicode.org/cgi-bin/GetUnihanData.pl"><input name="codepoint" size="5" type="text" /> <input value="在 Unihan 找字" type="submit" />
-</form>
+<body onload="init();">
+<form method="get" action=""><div>查詢：始碼 <input id="s" name="s" size="5" type="text" /> 終碼 <input id="e" name="e" size="5" type="text" /> <input value="送出" type="submit" /></div></form>
+<form method="get" action="javascript:searchunihan($('uni').value);"><div><input id="uni" size="5" type="text" /> <input value="在 Unihan 找字" type="submit" /></div></form>
 <hr/>
 
 <table class="pretty">
@@ -268,84 +340,4 @@
 
 <div id="output"></div>
 </body>
-<script type="text/javascript">
-<!--
-var $_GET = _GET();
-
-var $startx = isset($_GET['s']) ? $_GET['s'] : '0';
-var $endx = isset($_GET['e']) ? $_GET['e'] : '';
-var $start = hexdec($startx);
-var $end = ($endx!='') ? hexdec($endx) : $start;
-var $startp = parseInt($start / 16) * 16;
-var $endp = (parseInt($end / 256) + 1) * 256;
-
-function $(id) {
-    return document.getElementById(id);
-}
-
-function w(str) {
-    document.write(str);
-}
-
-function isset(v) {
-    return (v!=undefined);
-}
-
-function dechex(number) {
-    if (number < 0) {
-        number = 0xFFFFFFFF + number + 1;
-    }
-    return parseInt(number, 10).toString(16).toUpperCase();
-}
-
-function hexdec(hex_string) { 
-    hex_string = (hex_string+'').replace(/[^a-f0-9]/gi, '');
-    return parseInt(hex_string, 16);
-}
-
-function _GET() {
-    var ret = [];
-    var args = location.search.substr(1).split('&');
-    for (var i=0,I=args.length;i<I;++i) {
-        var e = args[i].indexOf('=');
-        ret[args[i].substring(0,e)] = args[i].substring(e+1);
-    }
-    return ret;
-}
-
-function searchunihan() {
-    window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint='+$('uni').value);
-}
-
-$('s').value = $startx;
-$('e').value = $endx;
-
-var out = [];
-out.push('<table class="map" style="font-size: 1.5em; width: 80%;">\n');
-out.push('<tr><th colspan="17">Unicode: '+dechex($start) + " - " + dechex($end) + '</th>');
-
-for ($i=$startp;$i<=$endp;++$i) {
-    if ($i%256==0||$i==$startp) {
-        if ($i>$end) break;
-        out.push('</tr>\n<tr><th>U+</th>');
-        for ($j=0,$J=15;$j<=$J;++$j) {
-            out.push('<th>' + dechex($j) + '</th>');
-        }
-    }
-    if ($i%16==0) {
-        if ($i>$end) break;
-        out.push( '</tr>\n<tr><td><b>'+dechex(parseInt($i/16)*16)+'</b></td>');
-    }
-    if ($i>=$start && $i<=$end) {
-        out.push( "<td>&#"+$i+";</td>");
-    }
-    else {
-        out.push('<td class="empty">&nbsp;</td>');
-    }
-}
-out.push( "</tr>\n</table>");
-$('output').innerHTML = out.join('');
-
-//-->
-</script>
 </html>
