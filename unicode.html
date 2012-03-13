@@ -81,7 +81,7 @@ function init() {
     if ($_GET['s']==undefined && $_GET['e']==undefined) {var startx = '0000', endx = '00FF';}
     else {var startx = $_GET['s'], endx = $_GET['e'];}
     var start = hexdec(startx);
-    var end = (endx!='') ? hexdec(endx) : start;
+    var end = hexdec(endx); if (!end || end<start) end = start;
     var startp = parseInt(start / 16) * 16;
     var endp = (parseInt(end / 256) + 1) * 256;
 
