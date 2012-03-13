@@ -52,13 +52,13 @@ function search() {
     var mode = $('mode').value;
     switch (mode) {
         case 'range':
-            location.href = '?s=' + $('s').value + '&e=' + $('e').value;
+            location.href = '?s=' + $('s').value + '&e=' + $('e').value + '&font=' + $('font').value;
             break;
         case 'char':
             var s = parseInt($('char').value.charCodeAt(0));
             var e = s + (parseInt($('count').value)||1) - 1;
             s = dechex(s); e = dechex(e);
-            location.href = '?s=' + s + '&e=' + e;
+            location.href = '?s=' + s + '&e=' + e + '&font=' + $('font').value;
             break;
         case 'unihan':
             window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=' + $('unihan').value);
@@ -74,9 +74,31 @@ function switch_mode() {
     $('mode_'+mode).style.display = '';
 }
 
-function init() {
-    switch_mode();
+function init_font() {
+    var els1 = $('unicode_table').getElementsByTagName('a');
+    var els2 = $('unicode_list').getElementsByTagName('a');
+    els = [];
+    for (i=0,I=els1.length;i<I;++i) els.push(els1[i]);
+    for (i=0,I=els2.length;i<I;++i) els.push(els2[i]);
+    window.links = els;
+    var i = els.length;
+    while (--i) {
+        els[i].setAttribute('range',els[i].href);
+    }
+    switch_font();
+}
 
+function switch_font() {
+    var font = $('font').value;
+    $('output').style.fontFamily = font;
+    var els = window.links, i = els.length, a, pos;
+    while (--i) {
+        els[i].href = els[i].getAttribute('range') + '&font=' + font;
+    }
+}
+
+function init() {
+    /* retrieve data */
     var $_GET = _GET();
     if ($_GET['s']==undefined && $_GET['e']==undefined) {var startx = '0000', endx = '00FF';}
     else {var startx = $_GET['s'], endx = $_GET['e'];}
@@ -84,25 +106,31 @@ function init() {
     var end = hexdec(endx); if (!end || end<start) end = start;
     var startp = parseInt(start / 16) * 16;
     var endp = (parseInt(end / 256) + 1) * 256;
+    var font = decodeURI($_GET['font'] || '');
 
+    /* init fields */
+    switch_mode();
     $('s').value = startx;
     $('e').value = endx;
+    $('font').value = font;
+    init_font();
 
+    /* generates table */
     var out = [];
     out.push('<table class="map" style="font-size: 1.5em; width: 80%;">\n');
-    out.push('<tr><th colspan="17">Unicode: '+dechex(start) + " - " + dechex(end) + '</th>');
+    out.push('<tr><th colspan="17" style="font-family:sans-serif;">Unicode: '+dechex(start) + " - " + dechex(end) + '</th>');
 
     for (var i=startp;i<=endp;++i) {
         if (i%256==0||i==startp) {
             if (i>end) break;
-            out.push('</tr>\n<tr><th>U+</th>');
+            out.push('</tr>\n<tr style="font-family:sans-serif;"><th>U+</th>');
             for ($j=0,$J=15;$j<=$J;++$j) {
                 out.push('<th>' + dechex($j) + '</th>');
             }
         }
         if (i%16==0) {
             if (i>end) break;
-            out.push( '</tr>\n<tr><td><b>'+dechex(parseInt(i/16)*16)+'</b></td>');
+            out.push( '</tr>\n<tr><td><b style="font-family:sans-serif;">'+dechex(parseInt(i/16)*16)+'</b></td>');
         }
         if (i>=start && i<=end) {
             out.push( "<td>&#"+i+";</td>");
@@ -131,12 +159,13 @@ function init() {
         <span id="mode_char">字元 <input id="char" size="2" type="text" /> 數量 <input id="count" size="4" type="text" /></span>
         <span id="mode_unihan">字元或 Unicode 碼 <input id="unihan" size="5" type="text" /></span>
         <input type="submit" value="查詢" />
+        <label>&nbsp; |&nbsp; 顯示字體 <input id="font" value="sans-serif" onchange="switch_font();" /></label>
     </div>
 </form>
 
 <hr/>
 
-<table class="pretty">
+<table id="unicode_table" class="pretty">
     <tr>
         <th colspan="9">Unicode 字元平面</th>
     </tr>
@@ -240,7 +269,7 @@ function init() {
 
 <hr/>
 
-<table class="pretty">
+<table id="unicode_list" class="pretty">
     <tr>
         <th colspan="3">統一碼漢字表</th>
     </tr>
