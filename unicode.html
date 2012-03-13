@@ -155,9 +155,9 @@ function init() {
           <option value="unihan">Unihan資料庫</option>
         </select>
         <label> -- </label>
-        <span id="mode_range">始碼 <input id="s" size="5" type="text" /> 終碼 <input id="e" size="5" type="text" /></span>
-        <span id="mode_char">字元 <input id="char" size="2" type="text" /> 數量 <input id="count" size="4" type="text" /></span>
-        <span id="mode_unihan">字元或 Unicode 碼 <input id="unihan" size="5" type="text" /></span>
+        <span id="mode_range" style="display:none;">始碼 <input id="s" size="5" type="text" /> 終碼 <input id="e" size="5" type="text" /></span>
+        <span id="mode_char" style="display:none;">字元 <input id="char" size="2" type="text" /> 數量 <input id="count" size="4" type="text" /></span>
+        <span id="mode_unihan" style="display:none;">字元或 Unicode 碼 <input id="unihan" size="5" type="text" /></span>
         <input type="submit" value="查詢" />
         <label>&nbsp; |&nbsp; 顯示字體 <input id="font" value="sans-serif" onchange="switch_font();" /></label>
     </div>
