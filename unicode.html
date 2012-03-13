@@ -48,13 +48,36 @@ function hexdec(hex_string) {
     return parseInt(hex_string, 16);
 }
 
-function searchunihan(key) {
-    window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint='+key);
+function search() {
+    var mode = $('mode').value;
+    switch (mode) {
+        case 'range':
+            location.href = '?s=' + $('s').value + '&e=' + $('e').value;
+            break;
+        case 'char':
+            var s = parseInt($('char').value.charCodeAt(0));
+            var e = s + (parseInt($('count').value)||1) - 1;
+            s = dechex(s); e = dechex(e);
+            location.href = '?s=' + s + '&e=' + e;
+            break;
+        case 'unihan':
+            window.open('http://www.unicode.org/cgi-bin/GetUnihanData.pl?codepoint=' + $('unihan').value);
+            break;
+    }
+}
+
+function switch_mode() {
+    var mode = $('mode').value;
+    $('mode_range').style.display = 'none';
+    $('mode_char').style.display = 'none';
+    $('mode_unihan').style.display = 'none';
+    $('mode_'+mode).style.display = '';
 }
 
 function init() {
-    var $_GET = _GET();
+    switch_mode();
 
+    var $_GET = _GET();
     if ($_GET['s']==undefined && $_GET['e']==undefined) {var startx = '0000', endx = '00FF';}
     else {var startx = $_GET['s'], endx = $_GET['e'];}
     var start = hexdec(startx);
@@ -95,8 +118,21 @@ function init() {
 </script>
 </head>
 <body onload="init();">
-<form method="get" action=""><div>查詢：始碼 <input id="s" name="s" size="5" type="text" /> 終碼 <input id="e" name="e" size="5" type="text" /> <input value="送出" type="submit" /></div></form>
-<form method="get" action="javascript:searchunihan($('uni').value);"><div><input id="uni" size="5" type="text" /> <input value="在 Unihan 找字" type="submit" /></div></form>
+<form method="get" action="javascript:search();">
+    <div>
+        <label>查詢</label>
+        <select id="mode" onchange="switch_mode();">
+          <option value="range" selected="selected">Unicode 碼</option>
+          <option value="char">字元</option>
+          <option value="unihan">Unihan資料庫</option>
+        </select>
+        <label> -- </label>
+        <span id="mode_range">始碼 <input id="s" size="5" type="text" /> 終碼 <input id="e" size="5" type="text" /></span>
+        <span id="mode_char">字元 <input id="char" size="2" type="text" /> 數量 <input id="count" size="4" type="text" /></span>
+        <span id="mode_unihan">字元或 Unicode 碼 <input id="unihan" size="5" type="text" /></span>
+        <input type="submit" value="查詢" />
+    </div>
+</form>
 <hr/>
 
 <table class="pretty">
