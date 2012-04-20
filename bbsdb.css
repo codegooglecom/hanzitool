@@ -1,0 +1,25 @@
+body{margin:0; padding:10px; background-color:black;}
+pre {font-family:"AR PL UMING TW", "細明體", mingliu, Courier, monospace; margin:0; padding:0; line-height:1em; color:silver;}
+
+a        {text-decoration:none; color:inherit;}
+a:hover  {color: #ddd; background-color: #666;}
+a.http   {border-bottom:1px solid #ff6600;}
+a.telnet {border-bottom:1px solid AQUA;}
+a.ftp    {border-bottom:1px solid LIME;}
+
+.italic {font-style:italic;}
+.blink  {text-decoration:blink;}
+.hidden {visibility:hidden;}
+
+.fg030{color:BLACK;} .fg031{color:MAROON;} .fg032{color:GREEN;}
+.fg033{color:OLIVE;} .fg034{color:NAVY;}   .fg035{color:PURPLE;}
+.fg036{color:TEAL;}  .fg037{color:SILVER;}
+
+.fg130{color:GRAY;}   .fg131{color:RED;}   .fg132{color:LIME;}
+.fg133{color:YELLOW;} .fg134{color:BLUE;}  .fg135{color:FUCHSIA;}
+.fg136{color:AQUA;}   .fg137{color:WHITE;}
+
+.bg40{background-color:BLACK;} .bg41{background-color:MAROON;}
+.bg42{background-color:GREEN;} .bg43{background-color:OLIVE;}
+.bg44{background-color:NAVY;}  .bg45{background-color:PURPLE;}
+.bg46{background-color:TEAL;}  .bg47{background-color:SILVER;}
