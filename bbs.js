@@ -61,7 +61,7 @@ bbs.processObject = function(obj) {
 bbs.processText = function(txt) {
     // 轉換內文
     var ret, d = [];
-    var s = txt.replace(/\r\n?/mg,"\n").replace(/&/mg,"&amp;").replace(/</mg,"&lt;").replace(/>/mg,"&gt;"); // 統一換行為 \n 並 escape HTML
+    var s = txt.replace(/\r\n?/mg,"\n"); // 統一換行字元為 \n
     s = s.replace(/\x1B/g,'&#27;');  // 轉換特殊字元
     s = UAOtoUnicode(s); // 轉換 UAO 字元
     s = s.replace(/^((?::|&gt;)(?: |&nbsp;).*)$/mg,'&#27;[0;36m$1&#27;[m').replace(/^(※.*)$/mg,'&#27;[0;32m$1&#27;[m'); // 轉換特殊格式：引文(: 開頭)、引文(> 開頭)、強調(※開頭)
