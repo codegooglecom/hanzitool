@@ -54,11 +54,11 @@ bbs.processObject = function(obj) {
             obj.style.lineHeight = (f+2)+'px';
         }
         obj.className = 'bbs';
-        obj.innerHTML = bbs2html(obj.innerHTML);
+        obj.innerHTML = bbs.processText(obj.innerHTML);
     }
 }
 
-function bbs2html(txt) {
+bbs.processText = function(txt) {
     // 轉換內文
     var ret, d = [];
     var s = txt.replace(/\r\n?/mg,"\n").replace(/&/mg,"&amp;").replace(/</mg,"&lt;").replace(/>/mg,"&gt;"); // 統一換行為 \n 並 escape HTML
