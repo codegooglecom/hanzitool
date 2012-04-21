@@ -1,25 +1,24 @@
-body{margin:0; padding:10px; background-color:black;}
-pre {font-family:"AR PL UMING TW", "細明體", mingliu, Courier, monospace; margin:0; padding:0; line-height:1em; color:silver;}
+pre.bbs {font-family:mingliu, monospace; line-height:1em; color:silver; background-color:black;}
 
-a        {text-decoration:none; color:inherit;}
-a:hover  {color: #ddd; background-color: #666;}
-a.http   {border-bottom:1px solid #ff6600;}
-a.telnet {border-bottom:1px solid AQUA;}
-a.ftp    {border-bottom:1px solid LIME;}
+.bbs a        {text-decoration:none; color:inherit;}
+.bbs a:hover  {color: #ddd; background-color: #666;}
+.bbs a.http   {border-bottom:1px solid #ff6600;}
+.bbs a.telnet {border-bottom:1px solid AQUA;}
+.bbs a.ftp    {border-bottom:1px solid LIME;}
 
-.italic {font-style:italic;}
-.blink  {text-decoration:blink;}
-.hidden {visibility:hidden;}
+.bbs .italic {font-style:italic;}
+.bbs .blink  {text-decoration:blink;}
+.bbs .hidden {visibility:hidden;}
 
-.fg030{color:BLACK;} .fg031{color:MAROON;} .fg032{color:GREEN;}
-.fg033{color:OLIVE;} .fg034{color:NAVY;}   .fg035{color:PURPLE;}
-.fg036{color:TEAL;}  .fg037{color:SILVER;}
+.bbs .fg030{color:BLACK;} .bbs .fg031{color:MAROON;} .bbs .fg032{color:GREEN;}
+.bbs .fg033{color:OLIVE;} .bbs .fg034{color:NAVY;}   .bbs .fg035{color:PURPLE;}
+.bbs .fg036{color:TEAL;}  .bbs .fg037{color:SILVER;}
 
-.fg130{color:GRAY;}   .fg131{color:RED;}   .fg132{color:LIME;}
-.fg133{color:YELLOW;} .fg134{color:BLUE;}  .fg135{color:FUCHSIA;}
-.fg136{color:AQUA;}   .fg137{color:WHITE;}
+.bbs .fg130{color:GRAY;}   .bbs .fg131{color:RED;}   .bbs .fg132{color:LIME;}
+.bbs .fg133{color:YELLOW;} .bbs .fg134{color:BLUE;}  .bbs .fg135{color:FUCHSIA;}
+.bbs .fg136{color:AQUA;}   .bbs .fg137{color:WHITE;}
 
-.bg40{background-color:BLACK;} .bg41{background-color:MAROON;}
-.bg42{background-color:GREEN;} .bg43{background-color:OLIVE;}
-.bg44{background-color:NAVY;}  .bg45{background-color:PURPLE;}
-.bg46{background-color:TEAL;}  .bg47{background-color:SILVER;}
+.bbs .bg40{background-color:BLACK;} .bbs .bg41{background-color:MAROON;}
+.bbs .bg42{background-color:GREEN;} .bbs .bg43{background-color:OLIVE;}
+.bbs .bg44{background-color:NAVY;}  .bbs .bg45{background-color:PURPLE;}
+.bbs .bg46{background-color:TEAL;}  .bbs .bg47{background-color:SILVER;}

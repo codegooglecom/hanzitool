@@ -44,6 +44,7 @@ bbs.processObject = function(obj) {
     }
 
     function processPreObject(obj) {
+        obj.className = 'bbs';
         if (conf.resize) {
             var w = document.body.clientWidth; // width of window
             var f = Math.floor((w-30)/41); // font size
