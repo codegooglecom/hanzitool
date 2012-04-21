@@ -38,9 +38,12 @@ bbs.processPage = function() {
 };
 
 bbs.processObject = function(obj) {
-    var els = document.getElementsByTagName('PRE');
-    for (var i=0,I=els.length;i<I;++i) {
-        processPreObject(els[i]);
+    if (obj.tagName == 'PRE') processPreObject(obj);
+    else {
+        var els = obj.getElementsByTagName('PRE');
+        for (var i=0,I=els.length;i<I;++i) {
+            processPreObject(els[i]);
+        }
     }
 
     function processPreObject(obj) {
