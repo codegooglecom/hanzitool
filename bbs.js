@@ -170,6 +170,7 @@ function importCss() {
 }
 
 autoProcessPage();
+window.bbs = bbs;
 
 /**
  * List
