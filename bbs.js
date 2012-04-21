@@ -65,15 +65,19 @@ bbs.processText = function(txt) {
     s = s.replace(/\x1B/g,'&#27;');  // 轉換特殊字元
     s = UAOtoUnicode(s); // 轉換 UAO 字元
     s = s.replace(/^((?::|&gt;)(?: |&nbsp;).*)$/mg,'&#27;[0;36m$1&#27;[m').replace(/^(※.*)$/mg,'&#27;[0;32m$1&#27;[m'); // 轉換特殊格式：引文(: 開頭)、引文(> 開頭)、強調(※開頭)
-    s = s.replace( /&#27;\[([0-9;]*)(.)/g, subReplace ); // 轉換控制碼(上色、閃爍等)
+    s = s.replace( /&#27;\[([0-9;]*)(.)/g, markCommon ); // 轉換控制碼(上色、閃爍等)
     s = s.replace( /(https?|ftp|telnet):\/\/(<.*?>|[\w\!\@\#\$\%\&\*\(\)\-\=\+\|\.\,\'\;\~\?\/\\])+/g, markLinks );  // 轉換超連結
     return s;
 
-    function subReplace() {
+    function markCommon() {
         var m = arguments;
-        if (m[2]!='m') return '';
+        return markStyle(m[1], m[2]);
+    }
+
+    function markStyle(style, postfix) {
+        if (postfix!='m') return '';
         ret = '';
-        m = m[1].split(';');
+        m = style.split(';');
         if (!m.length) {
             closeTag();
             return ret;
