@@ -47,15 +47,14 @@ bbs.processObject = function(obj) {
     }
 
     function processPreObject(obj) {
-        obj.className = 'bbs';
         if (conf.resize) {
             var w = document.body.clientWidth; // width of window
             var f = Math.floor((w-30)/41); // font size
             obj.style.fontSize = f+'px';
             obj.style.lineHeight = (f+2)+'px';
         }
-        var s = bbs2html(obj.innerHTML);
-        obj.innerHTML = s;
+        obj.className = 'bbs';
+        obj.innerHTML = bbs2html(obj.innerHTML);
     }
 }
 
