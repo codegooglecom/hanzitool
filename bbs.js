@@ -1,6 +1,6 @@
 ﻿/**
- * BBS 文件瀏覽器
- * BBS Document Browser
+ * BBS 轉碼器
+ * BBS Code Converter
  *
  *  @Project Home   http://code.google.com/p/hanzitool/
  *  @License        MIT License
@@ -12,32 +12,32 @@
 /**
  * Variables
  */
-var _bbsdb = window.bbsdb;
-var bbsdb = {};
+var _bbs = window.bbs;
+var bbs = {};
 
 /**
  * Configs
  */
-var conf = bbsdb.conf = {
+var conf = bbs.conf = {
     resize: 1,  // 1 or 0
     auto: 1  // 1 or 0
 };
 
 // 轉移原物件的 config
-if (_bbsdb && _bbsdb.conf) { for (var i in _bbsdb.conf) conf[i] = _bbsdb.conf[i]; }
+if (_bbs && _bbs.conf) { for (var i in _bbs.conf) conf[i] = _bbs.conf[i]; }
 
 /**
  * Sytem Functions
  */
-bbsdb.processPage = function() {
+bbs.processPage = function() {
     if (!conf.cssImported) {
         conf.cssImported = 1;
         importCss();
     }
-    bbsdb.processObject(document.body);
+    bbs.processObject(document.body);
 };
 
-bbsdb.processObject = function(obj) {
+bbs.processObject = function(obj) {
     var els = document.getElementsByTagName('PRE');
     for (var i=0,I=els.length;i<I;++i) {
         processPreObject(els[i]);
@@ -132,7 +132,7 @@ function bbs2html(txt) {
  */
 function autoProcessPage() {
     if (!conf.auto) return;
-    if (document.body) bbsdb.processPage();
+    if (document.body) bbs.processPage();
     else bindEvent(window,'load',arguments.callee);
 }
 
@@ -152,8 +152,8 @@ function importCss() {
     var scripts = document.getElementsByTagName('script'), src, path;
     for (var i=0,I=scripts.length;i<I;++i) {
         src = scripts[i].src;
-        if (src != null && src.search(/bbsdb\.js$/) != -1) {
-            path = src.replace(/bbsdb\.js$/,'');
+        if (src != null && src.search(/bbs\.js$/) != -1) {
+            path = src.replace(/bbs\.js$/,'');
             break;
         }
     }
@@ -162,7 +162,7 @@ function importCss() {
     link = document.createElement('link');
     link.setAttribute('rel','stylesheet');
     link.setAttribute('type','text/css');
-    link.setAttribute('href',path + 'bbsdb.css');
+    link.setAttribute('href',path + 'bbs.css');
     target.appendChild(link);
 }
 
